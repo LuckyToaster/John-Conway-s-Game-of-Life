@@ -4,7 +4,7 @@ public class GameOfLife {
 
 	/* 
 	 * @param previous - previous generation 2D int array
-	 * @return the next generation 2D int array as a finite grid (with borders)
+	 * @return the next generation 2D int array, as a finite grid (with borders)
 	 */
 	public static int[][] getNextGeneration(int[][] previous) {
 
