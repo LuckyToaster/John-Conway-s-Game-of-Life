@@ -11,7 +11,8 @@ import javax.swing.Timer;
 
 public class CellGrid extends JFrame implements KeyListener {
 	
-	private final int pixelW, pixelH, rows, cols, updateInterval;
+	private final int pixelW, pixelH, rows, cols;
+	private int updateInterval;
 	private boolean fullscreen, pause;
 	private Color bg, fg, aliveColor;
 	private Cell[][] grid;
@@ -26,28 +27,37 @@ public class CellGrid extends JFrame implements KeyListener {
 	 * @param fg - foreground color for the cells
 	 * @param aliveColor - color for when a cell's 'alive' attribute is set to true
 	 */
-	CellGrid (String title, int cellSize, int updateInterval, boolean fullscreen, Color bg, Color fg, Color aliveColor) {
+	CellGrid (String title, int cellSize, int updateInterval, boolean fullscreen, 
+			 Color bg, Color fg, Color aliveColor) {
 		super(title);
 		this.updateInterval = updateInterval;
 		this.fullscreen = fullscreen;
 		this.bg = bg;
 		this.fg = fg;
 		this.aliveColor = aliveColor;
-
-		pause = true;
-		pixelW = (int) getDefaultToolkit().getScreenSize().getWidth();
-		pixelH = (int) getDefaultToolkit().getScreenSize().getHeight();
-		rows = pixelH / cellSize;
-		cols = pixelW / cellSize;
+		this.pause = true;
+		this.pixelW = (int) getDefaultToolkit().getScreenSize().getWidth();
+		this.pixelH = (int) getDefaultToolkit().getScreenSize().getHeight();
+		this.rows = pixelH / cellSize;
+		this.cols = pixelW / cellSize;
 
 		initializeFrame();
 		initializeGrid();
 		initializeTimer();
 	}
+	
+	CellGrid(String title) {
+		this(title, 20, 100, false, Color.black, Color.gray, Color.white);
+	}
+	
+	CellGrid() {
+		this("CellGrid", 20, 100, false, Color.black, Color.gray, Color.white);
+	}
 
 	/**
 	 * Initialize the frame with default configuration.
-	 * Also adds a KeyListener that will toggle fullscreen and pause with 'f' and 'p' keys
+	 * Also adds a KeyListener that will toggle fullscreen and pause with 'f' 
+	 * and 'p' keys
 	 */
 	private void initializeFrame() {
 		setVisible(true);
@@ -56,20 +66,27 @@ public class CellGrid extends JFrame implements KeyListener {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new GridLayout(rows, cols));
 		setSize((int) (pixelW / 2), (int) (pixelH / 2));
+
 		addKeyListener(new KeyAdapter() {
 			@Override public void keyPressed(KeyEvent e) {
 				int key = e.getKeyCode();
+
 				if (key == KeyEvent.VK_P) {
+
 					if (pause) timer.start();
 					else timer.stop();
 					pause = !pause;
+
 				} if (key == KeyEvent.VK_F) {
+
 					if (!fullscreen) setExtendedState(MAXIMIZED_BOTH);
 					else setExtendedState(NORMAL);
 					fullscreen = !fullscreen;
+
 				} else if (key == KeyEvent.VK_ESCAPE) dispose();
 			}
 		});
+
 		if (fullscreen) setExtendedState(MAXIMIZED_BOTH);
 	}
 	
@@ -86,8 +103,9 @@ public class CellGrid extends JFrame implements KeyListener {
 	}
 	
 	/**
-	 * Instantiates the timer, the timer will execute the 'timerOperations' method,
-	 * which can be overridden to customize the CellGrid's behaviour
+	 * Instantiates the timer, the timer will execute the 'timerOperations' 
+	 * method, which can be overridden to customize the CellGrid's behaviour
+	 * @see CellGrid#timerOperations {@link CellGrid.timerOperations()}
 	 */
 	private void initializeTimer() {
 		timer = new Timer(updateInterval, new ActionListener() {
@@ -98,8 +116,9 @@ public class CellGrid extends JFrame implements KeyListener {
 	}
 	
 	/**
-	 * Override this method to customize the CellGrid's behaviour. This method is executed
-	 * by the timer inside the 'initializeTimer' method
+	 * Override this method to customize the CellGrid's behaviour. This method 
+	 * is executed by the timer inside the 'initializeTimer' method
+	 * @see CellGrid#initializeTimer {@link CellGrid.initializeTimer()}
 	 */
 	public void timerOperations() {
 		// TODO
@@ -108,7 +127,7 @@ public class CellGrid extends JFrame implements KeyListener {
 	/**
 	 * Update's the cellGrid's cell states and redraws them
 	 *  @param nextState - 2D int array to update the cellGrid to
-	 *  @see Cell#update() {@link Cell.#update}
+	 *  @see Cell#update {@link Cell.update()}
 	 */
 	public void update(int[][] nextState) {
 		if (nextState.length == rows && nextState[0].length == cols) {
@@ -129,9 +148,10 @@ public class CellGrid extends JFrame implements KeyListener {
 		int[][] arr = new int[rows][cols];
 		for (int r = 0; r < arr.length; r++)
 			for (int c = 0; c < arr[r].length; c++) {
-				if (grid[r][c].isAlive()) 
-					arr[r][c] = 1;
+
+				if (grid[r][c].isAlive()) arr[r][c] = 1;
 				else arr[r][c] = 0;
+
 			}
 		return arr;
 	}
@@ -142,6 +162,63 @@ public class CellGrid extends JFrame implements KeyListener {
 	
 	public int getCols() {
 		return cols;
+	}
+
+	public int getUpdateInterval() {
+		return updateInterval;
+	}
+	
+	public void setUpdateInterval(int updateInterval) {
+		this.updateInterval = updateInterval;
+	}
+	
+	public boolean isFullscreen() {
+		return fullscreen;
+	}
+	
+	public void setFullscreen(boolean fullscreen) {
+		if (fullscreen) setExtendedState(MAXIMIZED_BOTH);
+		else setExtendedState(NORMAL);
+	}
+
+	public boolean isPause() {
+		return pause;
+	}
+
+	public void setPause(boolean pause) {
+		this.pause = pause;
+	}
+
+	public Color getBg() {
+		return bg;
+	}
+
+	public void setBg(Color bg) {
+		this.bg = bg;
+	}
+
+	public Color getFg() {
+		return fg;
+	}
+
+	public void setFg(Color fg) {
+		this.fg = fg;
+	}
+
+	public Color getAliveColor() {
+		return aliveColor;
+	}
+
+	public void setAliveColor(Color aliveColor) {
+		this.aliveColor = aliveColor;
+	}
+
+	public Cell[][] getGrid() {
+		return grid;
+	}
+
+	public void setGrid(Cell[][] grid) {
+		this.grid = grid;
 	}
 
 	@Override

@@ -7,7 +7,7 @@ public class Cell extends JButton {
 	private Color bg, fg, aliveColor;
 	
 	/**
-	 * @pararm bg - background color
+	 * @param bg - background color
 	 * @param fg - foreground color
 	 * @param aliveColor - Color for when the cell's alive attribute is set to true
 	 */
