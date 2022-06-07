@@ -27,8 +27,7 @@ public class CellGrid extends JFrame implements KeyListener {
 	 * @param fg - foreground color for the cells
 	 * @param aliveColor - color for when a cell's 'alive' attribute is set to true
 	 */
-	CellGrid (String title, int cellSize, int updateInterval, boolean fullscreen, 
-			 Color bg, Color fg, Color aliveColor) {
+	CellGrid (String title, int cellSize, int updateInterval, boolean fullscreen, Color bg, Color fg, Color aliveColor) {
 		super(title);
 		this.updateInterval = updateInterval;
 		this.fullscreen = fullscreen;

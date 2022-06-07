@@ -6,8 +6,7 @@ import static java.awt.Color.red;
 @SuppressWarnings("serial")
 public class Test extends CellGrid {
 	
-	Test(String title, int cellSize, int updateInterval, 
-			boolean fullscreen, Color bg, Color fg, Color aliveColor) {
+	Test(String title, int cellSize, int updateInterval, boolean fullscreen, Color bg, Color fg, Color aliveColor) {
 		super(title, cellSize, updateInterval, fullscreen, bg, fg, aliveColor);
 		// toggle fullscreen once to render buttons properly (its a bug)
 		setFullscreen(!isFullscreen());

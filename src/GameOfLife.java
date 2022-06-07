@@ -7,7 +7,6 @@ public class GameOfLife {
 	 * @return the next generation 2D int array, as a finite grid (with borders)
 	 */
 	public static int[][] getNextGeneration(int[][] previous) {
-
 		int rows = previous.length, cols = previous[0].length;
 		int[][] next = new int[rows][cols];
 
